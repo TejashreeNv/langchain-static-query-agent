@@ -1,0 +1,17 @@
+# Core LangChain
+langchain==0.1.148
+langchain-core==0.0.237
+langchain-huggingface==0.1.21
+langchain-community==0.0.80
+
+# HuggingFace
+transformers==4.57.6
+huggingface-hub==0.18.1
+safetensors==0.7.0
+
+# Environment & utilities
+python-dotenv==1.0.1
+ipython==8.16.3
+
+# Math tool
+numexpr==2.8.8
