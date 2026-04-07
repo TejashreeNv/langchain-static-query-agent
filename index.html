@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Agent Framework</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI';
+    background: linear-gradient(135deg, #ff6ec4, #7873f5);
+    color: white;
+}
+
+/* Landing */
+#landing {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#landing h1 { font-size: 50px; }
+
+#landing button {
+    padding: 15px 30px;
+    font-size: 18px;
+    background: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* App */
+#app { display: none; padding: 20px; }
+.container { max-width: 900px; margin: auto; }
+
+/* Chat */
+.chat-box {
+    background: rgba(0,0,0,0.3);
+    padding: 20px;
+    border-radius: 15px;
+    height: 400px;
+    overflow-y: auto;
+}
+
+.user { text-align: right; margin: 10px; }
+
+.bot {
+    text-align: left;
+    margin: 10px;
+    background: rgba(255,255,255,0.2);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* Inputs */
+select, textarea, button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+}
+
+button {
+    background: black;
+    color: white;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Landing -->
+<div id="landing">
+    <h1>🤖 AI Agent Framework</h1>
+    <p>Multi-Agent | Tools | Workflow | Email</p>
+    <button onclick="start()">🚀 GO</button>
+</div>
+
+<!-- App -->
+<div id="app">
+<div class="container">
+
+<select id="agent">
+<option value="basic">Basic</option>
+<option value="tools">Tools</option>
+<option value="multi">Multi-Agent</option>
+<option value="workflow">Workflow + Email</option>
+</select>
+
+<textarea id="query" placeholder="Ask anything..."></textarea>
+
+<button onclick="send()">Send</button>
+
+<div class="chat-box" id="chat"></div>
+
+</div>
+</div>
+
+<script>
+function start(){
+    document.getElementById("landing").style.display = "none";
+    document.getElementById("app").style.display = "block";
+}
+
+async function send(){
+    let q = document.getElementById("query").value;
+    let type = document.getElementById("agent").value;
+    let chat = document.getElementById("chat");
+
+    chat.innerHTML += `<div class="user">🧑 ${q}</div>`;
+
+    let res = await fetch("http://127.0.0.1:8000/run-workflow", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({query:q, agent_type:type})
+    });
+
+    let data = await res.json();
+
+    let output = "";
+
+    if(data.response){
+        output = data.response;
+    } else {
+        output =
+        "🔍 RESEARCH:\n" + data.research +
+        "\n\n📝 SUMMARY:\n" + data.summary +
+        "\n\n✅ FINAL ANSWER:\n" + data.final_answer;
+
+        if(data.email){
+            output += "\n\n" + data.email;
+        }
+    }
+
+    chat.innerHTML += `<div class="bot">🤖 <pre>${output}</pre></div>`;
+}
+</script>
+
+</body>
+</html>

@@ -1,17 +1,24 @@
 # Core LangChain
-langchain==0.1.148
-langchain-core==0.0.237
-langchain-huggingface==0.1.21
-langchain-community==0.0.80
+langchain
+langchain-core
+langchain-community
+langchain-huggingface
 
 # HuggingFace
-transformers==4.57.6
-huggingface-hub==0.18.1
-safetensors==0.7.0
+transformers
+huggingface-hub
 
-# Environment & utilities
-python-dotenv==1.0.1
-ipython==8.16.3
+# API
+fastapi
+uvicorn
+pydantic
 
-# Math tool
-numexpr==2.8.8
+# Optional UI
+streamlit
+
+# REST API
+fastapi
+uvicorn
+
+# UI
+streamlit
